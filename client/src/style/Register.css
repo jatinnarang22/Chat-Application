@@ -31,7 +31,8 @@
     border-radius: 2rem;
     padding: 3rem 5rem;
   }
-  .RegisterContainer input {
+  
+  .RegisterContainer  input {
     background-color: transparent;
     padding: 0.5rem;
     border: 0.1rem solid #4e0eff;
@@ -44,15 +45,17 @@
       outline: none;
     }
   }
-  .RegisterContainer  button {
+  
+  .RegisterContainer  .button  {
     background-color: #4e0eff;
     color: white;
-    padding: 1rem 2rem;
+    padding: 1rem 0.5rem;
     border: none;
     font-weight: bold;
     cursor: pointer;
     border-radius: 0.4rem;
     font-size: 1rem;
+    text-align: center;
     text-transform: uppercase;
     &:hover {
       background-color: #4e0eff;

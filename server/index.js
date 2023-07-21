@@ -18,7 +18,7 @@ const auth= require("./routes/auth");
     });
 
 //middleware
-// app.use(cors());
+app.use(cors());
 
 app.set("views",path.join(__dirname,"view"));
 app.use(express.urlencoded({extended:true}));  

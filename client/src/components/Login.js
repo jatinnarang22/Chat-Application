@@ -2,9 +2,52 @@ import React,{useState} from 'react'
 import { Link } from 'react-router-dom'
 import "../style/Login.css"
 import logo from "../assets/icon.gif"
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+
+
+//Toast Functions
+const notifyA = (msg) => {
+  toast.error(msg);
+};
+const notifysuccess = (msg) => {
+  toast.success(msg);
+};
+
+
+
 function Login() {
     const [login, setlogin] = useState("");
     const [password, setpassword] = useState("");
+    const navigate=useNavigate();
+
+
+    const   postData = () =>{
+
+      const postdatavalue = {
+        email: login,
+        password: password,
+      };
+
+      const apiUrl = 'http://localhost:5000/create-session';
+      axios.post( apiUrl , postdatavalue )
+      .then((Response)=>{
+        if(Response.data.error){
+          notifyA(Response.data.error);
+          navigate('/register')
+        }
+        else{
+          notifysuccess(Response.data);
+          navigate("/")
+        }
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    }
+
+
   return (
     <div className='FormContainer'>
       <form action="" >
@@ -27,7 +70,12 @@ function Login() {
           value={password}
           onChange={(e) => setpassword(e.target.value)}
         />
-        <button type="submit">Log In</button>
+        <input className='button'  type=" "
+            onClick={() => {
+              postData();
+            }}
+            value="Log In"
+            />
         <span>
           Don't have an account ? <Link to="/register">Create One.</Link>
         </span>
