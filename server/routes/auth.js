@@ -2,6 +2,25 @@ const express = require("express");
 const router = express.Router();
 const User = require("../Models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const verifytoken = require("../middleware/middleware");
+const{ Jwt_secret}= require("../middleware/middleware")
+
+// const verifytoken = (req, res, next) => {
+//   const token = req.header("Authorization")?.replace("Bearer ", "");
+
+//   if (!token) {
+//     return res.status(401).send({ error: "No token provided" });
+//   }
+
+//   jwt.verify(token, JWT_SECRET, (err, decoded) => {
+//     if (err) {
+//       return res.status(403).send({ error: "Invalid token" });
+//     }
+//     req.user = decoded; // Save the decoded token data (in this case, the userId) to the request object for use in protected routes.
+//     next();
+//   });
+// };
 
 router.post("/create", async (req, res) => {
   try {
@@ -39,14 +58,19 @@ router.post("/create", async (req, res) => {
     return res.status(500).send({ error: "Internal server error" });
   }
 });
-router.post("/create-session", async (req, res) => {
+router.post("/create-session",async (req, res) => {
   try {
     let email = req.body.email;
     let password = req.body.password;
     let user = await User.findOne({email}); 
-    console.log(email);
+    // console.log(email);
     if(user && (await bcrypt.compare(password,user.password))){
-      return res.send("u have successfuly register");
+      console.log(Jwt_secret);
+      const token= jwt.sign({_id:user.id},Jwt_secret,{
+        expiresIn:"30d"
+      })
+      console.log(token);
+      return res.send({success:token});
     }
     else{
       return res.send({error:"error u have to first login"});

@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+import SetAvatar from "./components/SetAvatar";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Chat />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path='/SetAvatar' element={<SetAvatar/>}></Route>
       </Routes>
       <ToastContainer 
         position="top-center"

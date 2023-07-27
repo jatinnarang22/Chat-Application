@@ -1,10 +1,13 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import "../style/Login.css"
 import logo from "../assets/icon.gif"
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+
+
+
 
 
 //Toast Functions
@@ -18,6 +21,18 @@ const notifysuccess = (msg) => {
 
 
 function Login() {
+  
+//useEffect
+useEffect(()=>{
+  const token = localStorage.getItem('Token');
+
+  if(token){
+    navigate('/');
+  }
+},[]);
+
+
+
     const [login, setlogin] = useState("");
     const [password, setpassword] = useState("");
     const navigate=useNavigate();
@@ -34,11 +49,12 @@ function Login() {
       axios.post( apiUrl , postdatavalue )
       .then((Response)=>{
         if(Response.data.error){
-          notifyA(Response.data.error);
+          notifyA("U have successfuly register");
           navigate('/register')
         }
         else{
-          notifysuccess(Response.data);
+          notifysuccess();
+          localStorage.setItem('Token',Response.data.success);
           navigate("/")
         }
       })
@@ -57,8 +73,8 @@ function Login() {
         </div>
         <input
           type="text"
-          placeholder="Username"
-          name="username"
+          placeholder="Email"
+          name="email"
           value={login}
           onChange={(e) => setlogin(e.target.value)}
           min="3"
@@ -71,6 +87,9 @@ function Login() {
           onChange={(e) => setpassword(e.target.value)}
         />
         <input className='button'  type=" "
+        onChange={(e)=>{
+          
+        }}
             onClick={() => {
               postData();
             }}
